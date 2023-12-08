@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.server.entities.enums.Permission.*;
 
@@ -29,7 +30,8 @@ public enum Role {
         List<SimpleGrantedAuthority> authorities = getPermissions()
                 .stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .toList();
+                .collect(Collectors.toList());
+
         authorities.add(new SimpleGrantedAuthority(this.name()));
 
         return authorities;

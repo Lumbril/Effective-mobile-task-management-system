@@ -111,7 +111,7 @@ public class JwtServiceImpl implements JwtService {
                 .setClaims(extraClaims)
                 .setHeaderParam("typ", "JWT")
                 .claim("user_id", clientDetails.getId())
-                .claim("username", clientDetails.getUsername())
+                .claim("email", clientDetails.getUsername())
                 .claim("token_type", type)
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -164,7 +164,7 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-        private Key getPublicKey() {
+    private Key getPublicKey() {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             byte [] bytes = Base64.getDecoder().decode(PUBLIC_KEY);

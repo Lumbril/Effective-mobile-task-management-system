@@ -7,7 +7,7 @@
     <changeSet id="create-blacklist-refresh-token" author="Vitaliy">
         <createTable tableName="blacklist_refresh_token">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="jti" type="varchar(200)">
                 <constraints nullable="false" unique="true"/>

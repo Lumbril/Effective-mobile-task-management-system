@@ -6,6 +6,7 @@
 
     <changeSet id="create-client" author="Vitaliy">
         <sql>CREATE TYPE user_role AS enum ('ROLE_ADMIN', 'ROLE_USER')</sql>
+
         <createTable tableName="client">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" unique="true"/>

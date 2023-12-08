@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
@@ -40,22 +42,25 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Client getById(Long id) {
-        return clientRepository.findById(id).orElseThrow();
+        return clientRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Пользователь с таким id не найден"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Client getByEmail(String email) {
-        return clientRepository.findByEmail(email).orElseThrow();
+        return clientRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("Пользователь с таким email не найден"));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Client getByIdFromToken(TokenBody tokenBody) {
-        return null;
+        return clientRepository.findById(tokenBody.getClientId()).orElseThrow(() -> new NoSuchElementException("Пользователь с таким id не найден"));
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
     }
