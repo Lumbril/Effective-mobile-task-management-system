@@ -2,6 +2,7 @@ package com.example.server.services;
 
 import com.example.server.dto.request.TaskCreateRequest;
 import com.example.server.dto.request.TaskUpdateRequest;
+import com.example.server.dto.response.TaskWithCommentPaginationResponse;
 import com.example.server.entities.Client;
 import com.example.server.entities.Task;
 import com.example.server.entities.enums.TaskStatus;

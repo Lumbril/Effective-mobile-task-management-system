@@ -2,12 +2,19 @@ package com.example.server.services.impl;
 
 import com.example.server.dto.request.TaskCreateRequest;
 import com.example.server.dto.request.TaskUpdateRequest;
+import com.example.server.dto.response.ClientResponse;
+import com.example.server.dto.response.CommentResponse;
+import com.example.server.dto.response.TaskWithCommentPaginationResponse;
+import com.example.server.dto.response.TaskWithCommentResponse;
 import com.example.server.entities.Client;
 import com.example.server.entities.Task;
 import com.example.server.entities.enums.TaskStatus;
 import com.example.server.repositories.TaskRepository;
 import com.example.server.services.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

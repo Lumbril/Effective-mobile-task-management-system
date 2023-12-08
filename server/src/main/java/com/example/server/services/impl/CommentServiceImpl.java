@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -28,5 +30,10 @@ public class CommentServiceImpl implements CommentService {
                 .build();
 
         return commentRepository.save(comment);
+    }
+
+    @Override
+    public List<Comment> getCommentsByTask(Long taskId) {
+        return commentRepository.getCommentByTask_Id(taskId);
     }
 }

@@ -6,9 +6,11 @@ import com.example.server.dto.request.TaskUpdateStatusRequest;
 import com.example.server.dto.response.ClientResponse;
 import com.example.server.dto.response.ErrorResponse;
 import com.example.server.dto.response.TaskResponse;
+import com.example.server.dto.response.TaskWithCommentPaginationResponse;
 import com.example.server.entities.Client;
 import com.example.server.entities.Task;
 import com.example.server.services.impl.TaskServiceImpl;
+import com.example.server.services.impl.TaskWithCommentServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,6 +37,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskServiceImpl taskService;
+    private final TaskWithCommentServiceImpl taskWithCommentService;
 
     @Operation(summary = "Создание задачи")
     @ApiResponses(value = {
@@ -181,6 +184,32 @@ public class TaskController {
         TaskResponse taskResponse = getTaskResponse(task);
 
         return ResponseEntity.ok().body(taskResponse);
+    }
+
+    @Operation(summary = "Получить задачи по автору или исполнителю",
+    description = "Получить отфильтрованные задачи по автору или испольнителю " +
+            "со всеми комментариями к ним. Вывод с пагинацией." +
+            "Если не указан автор и исполнитель, то выведутся все задачи." +
+            "Если указан один из двух, то будет фильтрация по нему." +
+            "Если указаны оба, то выведутся все задачи где совпадают оба.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = TaskWithCommentPaginationResponse.class)
+                    )
+            )
+    })
+    @GetMapping("/list/filter")
+    public ResponseEntity<?> getTaskWithFilters(
+            @RequestParam(name = "author_id", required = false) Long authorId,
+            @RequestParam(name = "performer_id", required = false) Long performerId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        TaskWithCommentPaginationResponse response = taskWithCommentService.getWithFilter(authorId, performerId, page, size);
+
+        return ResponseEntity.ok().body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
