@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final ClientServiceImpl userService;
+    private final ClientServiceImpl clientService;
     private final JwtServiceImpl jwtService;
 
     @Override
@@ -51,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        Client client = userService.getByIdFromToken(tokenBody);
+        Client client = clientService.getByIdFromToken(tokenBody);
 
         if (client == null || SecurityContextHolder.getContext().getAuthentication() != null) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
